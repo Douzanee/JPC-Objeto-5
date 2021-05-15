@@ -4,9 +4,9 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
-public class Snake extends JFrame {
+public class Main extends JFrame {
 	
-public Snake() {
+public Main() {
         
         initUI();
     }
@@ -18,7 +18,7 @@ public Snake() {
         setResizable(false);
         pack();
         
-        setTitle("Just a simple snake game");
+        setTitle("Estrutura de dados com quadtree");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -26,7 +26,7 @@ public Snake() {
     public static void main(String[] args) {
         
         EventQueue.invokeLater(() -> {
-            JFrame ex = new Snake();
+            JFrame ex = new Main();
             ex.setVisible(true);
         });
     }
