@@ -19,10 +19,9 @@ import javax.swing.JPanel;
 
 public class Board extends JPanel implements ActionListener
 {
-	
 	// Tamanho do tabuleiro
-	private final int B_WIDTH = 400;
-    private final int B_HEIGHT = 400;
+	private final int B_WIDTH = 600;
+    private final int B_HEIGHT = 600;
     
     private final int DELAY = 100; // Frequencia do game loop
     
@@ -33,31 +32,28 @@ public class Board extends JPanel implements ActionListener
     private Timer timer;
     
     //Quad Tree Stuff
-    private Rectangle rectangle = new Rectangle(getWidth()/2 ,getHeight()/2, 400, 400);
+    private Rectangle rectangle = new Rectangle(1,1,B_WIDTH-3, B_HEIGHT-3);
     private QuadTree quadTree = new QuadTree(rectangle, 4);
+    static List<QuadTree> quads = new ArrayList();
     
     Point[] points;
-    public static List <Rectangle> rects = new ArrayList<Rectangle>();
-	int quantity = 15;
-	int rectCount = 0;
-	static int pointCountTest = 0;
+	int quantity = 100;
 
 	Random rand = new Random();
     
     
     public Board() {
     	
-    	rects.add(rectangle);
     	points = new Point[quantity];
     	
         for(int i = 0; i < quantity; i++) {
-        	Point point = new Point(rand.nextInt(B_WIDTH), rand.nextInt(B_HEIGHT));
+        	Point point = new Point(rand.nextInt(rectangle.w - 2) + 2, rand.nextInt(rectangle.h - 2) + 2);
         	points[i] = point;
         	points[i].id = i;
         	quadTree.Insert(point);	
+        	System.out.println("inserted");
         }
         initBoard();
-        
     }
     
     /*** 
@@ -66,7 +62,7 @@ public class Board extends JPanel implements ActionListener
     private void initBoard() {
         
         // Seta a cor de fundo da janela
-        setBackground(Color.WHITE);
+        setBackground(Color.white);
         
         // Coloca o foco nesta janela
         setFocusable(true);
@@ -95,16 +91,23 @@ public class Board extends JPanel implements ActionListener
     
     public void doDrawing(Graphics g) 
     {
-    	for(int i = 0; i < rects.size(); i++) {
-		    	g.drawRect(rects.get(i).x, rects.get(i).y, rects.get(i).w, rects.get(i).h);
-		    	g.setColor(Color.BLUE);
+
+    	g.drawRect(1,1,B_WIDTH-3, B_HEIGHT-3);
+    	g.setColor(Color.black);
+    	    	
+    	for (int i = 0; i < quads.size(); i++) 
+    	{
+    		g.drawRect(quads.get(i).rectangle.x, quads.get(i).rectangle.y, quads.get(i).rectangle.w, quads.get(i).rectangle.h);
     	}
+    	
     	for (int i = 0; i < quantity; i++) 
     	{
-    		g.setColor(Color.RED);
+    		g.setColor(Color.red);
         	g.fillRect(points[i].x, points[i].y, 5, 5);
-        	java.awt.Toolkit.getDefaultToolkit().sync();  
     	}
+    	
+    	java.awt.Toolkit.getDefaultToolkit().sync();  
+    	  
     }
 
 
