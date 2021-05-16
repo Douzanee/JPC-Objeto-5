@@ -8,6 +8,7 @@ public class QuadTree {
 	int capacity;
 	Rectangle rectangle;
 	boolean divided = false;
+	static int dividedCount = 0;
 	public QuadTree northwest;
 	public QuadTree northeast;
 	public QuadTree southeast;
@@ -49,7 +50,7 @@ public class QuadTree {
 	}
 	public void Subdivide() {
 
-		System.out.println("Subdivided");
+		System.out.println("Subdivided " + dividedCount + " times");
 		
 		Rectangle rectangleNW = new Rectangle(rectangle.x + rectangle.w / 2 , 
 				rectangle.y - rectangle.h/2,
@@ -71,6 +72,7 @@ public class QuadTree {
 				rectangle.w/2,rectangle.h/2);
 		this.southeast = new QuadTree(rectangleSE, capacity);
 		divided = true;
+		dividedCount++;
 		
 	}
 }

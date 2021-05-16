@@ -23,31 +23,31 @@ public class Board extends JPanel implements ActionListener
     private final int B_HEIGHT = 1000;
     
     private final int DELAY = 100; // Frequencia do game loop
-
-
     
     // Jogo ainda em andamento?
-    private boolean inGame = true;
-    
-    // Transferência de Posição
-    int transferPosX = 0;
-    int transferPosY = 0;
+    private static boolean inGame = true;    
 
     // Temporizador para configurar a velocidade do jogo
     private Timer timer;
     
     //Quad Tree Stuff
-    private Rectangle rectangle = new Rectangle(200,200,200,200);
+    private Rectangle rectangle = new Rectangle(B_WIDTH,B_HEIGHT,B_WIDTH,B_HEIGHT);
     private QuadTree quadTree = new QuadTree(rectangle, 4);
+    
+    Point[] points;
+	int quantity = 4;
 
-	 Random rand = new Random();
+	Random rand = new Random();
     
     
     public Board() {
     	
-        for(int i = 0; i < 4; i++) {
+    	points = new Point[quantity];
+    	
+        for(int i = 0; i < quantity; i++) {
         	Point point = new Point(rand.nextInt(B_WIDTH), rand.nextInt(B_HEIGHT));
         	quadTree.Insert(point);	
+        	//points[i].id = i;
         	System.out.println("inserted");
         }
         initBoard();
@@ -59,7 +59,7 @@ public class Board extends JPanel implements ActionListener
     private void initBoard() {
         
         // Seta a cor de fundo da janela
-        setBackground(Color.black);
+        setBackground(Color.white);
         
         // Coloca o foco nesta janela
         setFocusable(true);
@@ -73,27 +73,30 @@ public class Board extends JPanel implements ActionListener
     }
 
 
-    private void initGame() {
-
-        
-        
+    private void initGame() 
+    {       
         timer = new Timer(DELAY, this);
         timer.start();
     }
-
+  
     @Override
-    public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) 
+    {
         super.paintComponent(g);
 
         doDrawing(g);
     }
     
-    private void doDrawing(Graphics g) 
+    public void doDrawing(Graphics g) 
     {
-        if (inGame) 
-        {
-            java.awt.Toolkit.getDefaultToolkit().sync();
-        }    
+
+    	for (int i = 0; i < quantity; i++) 
+    	{
+    		g.setColor(Color.red);
+        	g.fillRect(points[i].x, points[i].y, 5, 5);
+        	java.awt.Toolkit.getDefaultToolkit().sync();  
+    	}
+    	  
     }
 
 
@@ -101,7 +104,7 @@ public class Board extends JPanel implements ActionListener
 
         if (inGame) 
         {
-
+        	
         }
 
         repaint();
