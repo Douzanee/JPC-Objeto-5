@@ -53,7 +53,7 @@ public class QuadTree {
 		
 		Rectangle rectangleNW = new Rectangle(rectangle.x + rectangle.w / 2 , 
 				rectangle.y - rectangle.h/2,
-				rectangle.w/2,rectangle.h/2);
+				rectangle.w/2 , rectangle.h/2);
 		this.northwest = new QuadTree(rectangleNW, capacity);
 		
 		Rectangle rectangleNE = new Rectangle(rectangle.x - rectangle.w / 2 , 

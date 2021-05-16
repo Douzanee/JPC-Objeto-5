@@ -21,8 +21,8 @@ public class Board extends JPanel implements ActionListener
 {
 	
 	// Tamanho do tabuleiro
-	private final int B_WIDTH = 800;
-    private final int B_HEIGHT = 800;
+	private final int B_WIDTH = 400;
+    private final int B_HEIGHT = 400;
     
     private final int DELAY = 100; // Frequencia do game loop
     
@@ -33,12 +33,12 @@ public class Board extends JPanel implements ActionListener
     private Timer timer;
     
     //Quad Tree Stuff
-    private Rectangle rectangle = new Rectangle(getWidth()/2 ,getHeight()/2, B_WIDTH, B_HEIGHT);
+    private Rectangle rectangle = new Rectangle(getWidth()/2 ,getHeight()/2, 400, 400);
     private QuadTree quadTree = new QuadTree(rectangle, 4);
     
     Point[] points;
     public static List <Rectangle> rects = new ArrayList<Rectangle>();
-	int quantity = 12;
+	int quantity = 10;
 	int rectCount = 0;
 
 	Random rand = new Random();
