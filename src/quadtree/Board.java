@@ -37,7 +37,7 @@ public class Board extends JPanel implements ActionListener
     static List<QuadTree> quads = new ArrayList();
     
     Point[] points;
-	int quantity = 1000;
+	int quantity = 400;
 
 	Random rand = new Random();
     
@@ -90,11 +90,6 @@ public class Board extends JPanel implements ActionListener
     
     public void doDrawing(Graphics g) 
     {
-    	points[0].highLight = true;
-    	points[1].highLight = true;
-    	points[2].highLight = true;
-    	points[3].highLight = true;
-    	points[4].highLight = true;
     	g.drawRect(1,1,B_WIDTH-3, B_HEIGHT-3);
     	g.setColor(Color.black);
     	    	
@@ -117,11 +112,11 @@ public class Board extends JPanel implements ActionListener
     	java.awt.Toolkit.getDefaultToolkit().sync();  
     	  
     }
-    public void movePoints() {
+    public void movePoints() {   	
     	//quads.clear();
     	Random r = new Random();
-    	int min = -2;
-    	int max = 4;
+    	int min = -1;
+    	int max = 2;
     	int result;
         for(int i = 0; i < quantity; i++) {
         	result = r.nextInt(max - min) + min;
@@ -135,10 +130,15 @@ public class Board extends JPanel implements ActionListener
     public void actionPerformed(ActionEvent e) {
 
         if (inGame) 
-        {	
+        {	       	
         	quads.clear();
         	quadTree = new QuadTree(rectangle, 4);
         	movePoints();
+        	
+        	for(int i = 0; i < quads.size(); i++)
+        	{
+        		quads.get(i).VerifyCollisions();
+        	}
         }
 
         repaint();

@@ -8,7 +8,7 @@ public class QuadTree {
 	private List <Point> points = new ArrayList<Point>();
 	int capacity;
 	public Rectangle rectangle;
-	boolean divided = false;
+	public boolean divided = false;
 	static int dividedCount = 0;
 	public QuadTree northwest;
 	public QuadTree northeast;
@@ -97,5 +97,32 @@ public class QuadTree {
 		this.southeast.quadrante = "southeast";
 		
 		divided = true;				
+	}
+	
+	public void VerifyCollisions() 
+	{
+		for (int i = 0; i < points.size(); i++) 
+		{
+			int k = 0;
+			
+			for (int j = 0; j < points.size(); j++)
+			{
+				if (DoPitagoras(points.get(i), points.get(j)) && points.get(i) != points.get(j))
+				{
+					k++;
+				}		
+			}
+			if (k > 0) {
+				points.get(i).highLight = true;
+			}
+			else {
+				points.get(i).highLight = false;
+			}
+		}
+	}
+	
+	boolean DoPitagoras(Point point1, Point point2)
+	{
+		return(((point2.x - point1.x) * (point2.x - point1.x) + (point2.y - point1.y) * (point2.y - point1.y)) <= 24.5f);					
 	}
 }
