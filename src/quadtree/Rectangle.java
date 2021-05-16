@@ -16,9 +16,9 @@ public class Rectangle {
 	}
 	public boolean Contains(Point point) {
 		
-		return (point.x > this.x - this.w &&
+		return (point.x > this.x &&
 				point.x < this.x + this.w &&
-				point.y > this.y - this.h &&
+				point.y > this.y &&
 				point.y < this.y + this.h);
 	}
 }

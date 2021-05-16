@@ -37,7 +37,7 @@ public class Board extends JPanel implements ActionListener
     static List<QuadTree> quads = new ArrayList();
     
     Point[] points;
-	int quantity = 9;
+	int quantity = 100;
 
 	Random rand = new Random();
     
@@ -47,7 +47,7 @@ public class Board extends JPanel implements ActionListener
     	points = new Point[quantity];
     	
         for(int i = 0; i < quantity; i++) {
-        	Point point = new Point(rand.nextInt(rectangle.w), rand.nextInt(rectangle.h));
+        	Point point = new Point(rand.nextInt(rectangle.w - 2) + 2, rand.nextInt(rectangle.h - 2) + 2);
         	points[i] = point;
         	points[i].id = i;
         	quadTree.Insert(point);	
