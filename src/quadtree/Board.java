@@ -38,8 +38,9 @@ public class Board extends JPanel implements ActionListener
     
     Point[] points;
     public static List <Rectangle> rects = new ArrayList<Rectangle>();
-	int quantity = 10;
+	int quantity = 15;
 	int rectCount = 0;
+	static int pointCountTest = 0;
 
 	Random rand = new Random();
     
@@ -48,12 +49,12 @@ public class Board extends JPanel implements ActionListener
     	
     	rects.add(rectangle);
     	points = new Point[quantity];
-    	System.out.println("X : " + rectangle.x + " Y : " + rectangle.y + " W : " + rectangle.w + " H : " + rectangle.h);
+    	
         for(int i = 0; i < quantity; i++) {
         	Point point = new Point(rand.nextInt(B_WIDTH), rand.nextInt(B_HEIGHT));
-        	quadTree.Insert(point);	
         	points[i] = point;
         	points[i].id = i;
+        	quadTree.Insert(point);	
         }
         initBoard();
         
@@ -94,11 +95,9 @@ public class Board extends JPanel implements ActionListener
     
     public void doDrawing(Graphics g) 
     {
-    	for(int i = 0; i <rects.size(); i++) {
-		    	g.drawRect(rects.get(i).x, rects.get(i).y, rects.get(i).w*2, rects.get(i).h*2);
+    	for(int i = 0; i < rects.size(); i++) {
+		    	g.drawRect(rects.get(i).x, rects.get(i).y, rects.get(i).w, rects.get(i).h);
 		    	g.setColor(Color.BLUE);
-
-		    	System.out.println("X : " + rects.get(i).x + " Y : " + rects.get(i).y + " W : " + rects.get(i).w + " H : " + rects.get(i).h);
     	}
     	for (int i = 0; i < quantity; i++) 
     	{
@@ -106,7 +105,6 @@ public class Board extends JPanel implements ActionListener
         	g.fillRect(points[i].x, points[i].y, 5, 5);
         	java.awt.Toolkit.getDefaultToolkit().sync();  
     	}
-    	System.out.println("eae guei "+ rects.size());
     }
 
 

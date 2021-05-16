@@ -27,15 +27,15 @@ public class QuadTree {
 			return;
 		}
 		
-		//Board.rects.add(rectangle);
-		
 		if(points.size() < capacity) 
-		{
+		{	
+			Board.pointCountTest++;
+			System.out.println("Ponto Adicionado " + Board.pointCountTest + " Size: " + points.size() + " Com o ID : " + point.id);
 			points.add(point);
 		}
 		else 
 		{
-			if(!divided) 
+			if(!this.divided) 
 			{			
 				Subdivide();
 			}
@@ -48,35 +48,38 @@ public class QuadTree {
 
 	}
 	public void Subdivide() {
-		
-		
-		
-		Rectangle rectangleNW = new Rectangle(rectangle.x + rectangle.w / 2 , 
-				rectangle.y - rectangle.h/2,
-				rectangle.w/2 , rectangle.h/2);
-		this.northwest = new QuadTree(rectangleNW, capacity);
-		
-		Rectangle rectangleNE = new Rectangle(rectangle.x - rectangle.w / 2 , 
-				rectangle.y - rectangle.h/2,
-				rectangle.w/2,rectangle.h/2);
-		this.northeast = new QuadTree(rectangleNE, capacity);
-		
-		Rectangle rectangleSW = new Rectangle(rectangle.x + rectangle.w / 2 , 
-				rectangle.y + rectangle.h/2,
-				rectangle.w/2,rectangle.h/2);
-		this.southwest = new QuadTree(rectangleSW, capacity);
-		
-		Rectangle rectangleSE = new Rectangle(rectangle.x - rectangle.w / 2 , 
-				rectangle.y + rectangle.h/2,
-				rectangle.w/2,rectangle.h/2);
-		this.southeast = new QuadTree(rectangleSE, capacity);
-		divided = true;
-		Board.rects.add(rectangleNW);
-		Board.rects.add(rectangleNE);
-		Board.rects.add(rectangleSW);
-		Board.rects.add(rectangleSE);
-		dividedCount++;
-		
-	}
-}
 
+        int w = rectangle.w/2;
+        int h = rectangle.h/2;
+
+        
+        Rectangle rectangleNE = new Rectangle(this.rectangle.x + w, 
+                this.rectangle.y + 1,
+                w , h);
+        this.northeast = new QuadTree(rectangleNE, capacity);
+
+        Rectangle rectangleNW = new Rectangle(this.rectangle.x + 1, 
+                this.rectangle.y + 1,
+                w,h);
+        this.northwest = new QuadTree(rectangleNW, capacity);
+
+        Rectangle rectangleSE = new Rectangle(this.rectangle.x + w, 
+                this.rectangle.y + h,
+                w,h);
+        this.southeast = new QuadTree(rectangleSE, capacity);
+
+        Rectangle rectangleSW = new Rectangle(this.rectangle.x + 1, 
+                this.rectangle.y + h,
+                w,h);
+        this.southwest = new QuadTree(rectangleSW, capacity);
+
+        Board.rects.add(rectangleNE);
+        Board.rects.add(rectangleNW);
+        Board.rects.add(rectangleSE);
+        Board.rects.add(rectangleSW);
+
+        this.divided = true;
+
+
+    }
+}
