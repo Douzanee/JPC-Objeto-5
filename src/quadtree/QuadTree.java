@@ -32,6 +32,7 @@ public class QuadTree {
 		{
 			return;
 		}
+<<<<<<< HEAD
 			
 			
 		if(points.size() < capacity && !points.contains(point)) 
@@ -45,6 +46,18 @@ public class QuadTree {
 		else 
 		{			
 			if(!divided) 
+=======
+		
+		if(points.size() < capacity) 
+		{	
+			Board.pointCountTest++;
+			System.out.println("Ponto Adicionado " + Board.pointCountTest + " Size: " + points.size() + " Com o ID : " + point.id);
+			points.add(point);
+		}
+		else 
+		{
+			if(!this.divided) 
+>>>>>>> origin/main
 			{			
 				Subdivide();
 				
@@ -71,6 +84,7 @@ public class QuadTree {
 			System.out.println(" Estava incluso o ID:  " + points.get(i).id);
 		}
 
+<<<<<<< HEAD
 		Rectangle rectangleNW = new Rectangle(rectangle.x, 
 				rectangle.y,
 				rectangle.w/2,rectangle.h/2);
@@ -98,4 +112,39 @@ public class QuadTree {
 		divided = true;				
 	}
 }
+=======
+        int w = rectangle.w/2;
+        int h = rectangle.h/2;
 
+        
+        Rectangle rectangleNE = new Rectangle(this.rectangle.x + w, 
+                this.rectangle.y + 1,
+                w , h);
+        this.northeast = new QuadTree(rectangleNE, capacity);
+
+        Rectangle rectangleNW = new Rectangle(this.rectangle.x + 1, 
+                this.rectangle.y + 1,
+                w,h);
+        this.northwest = new QuadTree(rectangleNW, capacity);
+
+        Rectangle rectangleSE = new Rectangle(this.rectangle.x + w, 
+                this.rectangle.y + h,
+                w,h);
+        this.southeast = new QuadTree(rectangleSE, capacity);
+
+        Rectangle rectangleSW = new Rectangle(this.rectangle.x + 1, 
+                this.rectangle.y + h,
+                w,h);
+        this.southwest = new QuadTree(rectangleSW, capacity);
+
+        Board.rects.add(rectangleNE);
+        Board.rects.add(rectangleNW);
+        Board.rects.add(rectangleSE);
+        Board.rects.add(rectangleSW);
+
+        this.divided = true;
+
+>>>>>>> origin/main
+
+    }
+}
