@@ -35,7 +35,7 @@ public class Board extends JPanel implements ActionListener
     private QuadTree quadTree = new QuadTree(rectangle, 4);
     
     Point[] points;
-	int quantity = 4;
+	int quantity = 500;
 
 	Random rand = new Random();
     
@@ -47,7 +47,8 @@ public class Board extends JPanel implements ActionListener
         for(int i = 0; i < quantity; i++) {
         	Point point = new Point(rand.nextInt(B_WIDTH), rand.nextInt(B_HEIGHT));
         	quadTree.Insert(point);	
-        	//points[i].id = i;
+        	points[i] = point;
+        	points[i].id = i;
         	System.out.println("inserted");
         }
         initBoard();
@@ -92,7 +93,7 @@ public class Board extends JPanel implements ActionListener
 
     	for (int i = 0; i < quantity; i++) 
     	{
-    		g.setColor(Color.red);
+    		g.setColor(Color.RED);
         	g.fillRect(points[i].x, points[i].y, 5, 5);
         	java.awt.Toolkit.getDefaultToolkit().sync();  
     	}
