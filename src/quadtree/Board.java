@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javax.swing.Timer;
@@ -17,10 +19,9 @@ import javax.swing.JPanel;
 
 public class Board extends JPanel implements ActionListener
 {
-	
 	// Tamanho do tabuleiro
-	private final int B_WIDTH = 1000;
-    private final int B_HEIGHT = 1000;
+	private final int B_WIDTH = 600;
+    private final int B_HEIGHT = 600;
     
     private final int DELAY = 100; // Frequencia do game loop
     
@@ -31,11 +32,12 @@ public class Board extends JPanel implements ActionListener
     private Timer timer;
     
     //Quad Tree Stuff
-    private Rectangle rectangle = new Rectangle(B_WIDTH,B_HEIGHT,B_WIDTH,B_HEIGHT);
+    private Rectangle rectangle = new Rectangle(1,1,B_WIDTH-3, B_HEIGHT-3);
     private QuadTree quadTree = new QuadTree(rectangle, 4);
+    static List<QuadTree> quads = new ArrayList();
     
     Point[] points;
-	int quantity = 4;
+	int quantity = 9;
 
 	Random rand = new Random();
     
@@ -45,9 +47,10 @@ public class Board extends JPanel implements ActionListener
     	points = new Point[quantity];
     	
         for(int i = 0; i < quantity; i++) {
-        	Point point = new Point(rand.nextInt(B_WIDTH), rand.nextInt(B_HEIGHT));
+        	Point point = new Point(rand.nextInt(rectangle.w), rand.nextInt(rectangle.h));
+        	points[i] = point;
+        	points[i].id = i;
         	quadTree.Insert(point);	
-        	//points[i].id = i;
         	System.out.println("inserted");
         }
         initBoard();
@@ -66,7 +69,6 @@ public class Board extends JPanel implements ActionListener
 
         // Configura a dimensao da janela
         setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
-        rectangle = new Rectangle(200,200,200,200);
         
         // Inicializa o jogo
         initGame();
@@ -90,12 +92,21 @@ public class Board extends JPanel implements ActionListener
     public void doDrawing(Graphics g) 
     {
 
+    	g.drawRect(1,1,B_WIDTH-3, B_HEIGHT-3);
+    	g.setColor(Color.black);
+    	    	
+    	for (int i = 0; i < quads.size(); i++) 
+    	{
+    		g.drawRect(quads.get(i).rectangle.x, quads.get(i).rectangle.y, quads.get(i).rectangle.w, quads.get(i).rectangle.h);
+    	}
+    	
     	for (int i = 0; i < quantity; i++) 
     	{
     		g.setColor(Color.red);
         	g.fillRect(points[i].x, points[i].y, 5, 5);
-        	java.awt.Toolkit.getDefaultToolkit().sync();  
     	}
+    	
+    	java.awt.Toolkit.getDefaultToolkit().sync();  
     	  
     }
 

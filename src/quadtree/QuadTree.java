@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuadTree {
-	List <Point> points = new ArrayList<Point>();
+	private List <Point> points = new ArrayList<Point>();
 	int capacity;
-	Rectangle rectangle;
+	public Rectangle rectangle;
 	boolean divided = false;
 	static int dividedCount = 0;
 	public QuadTree northwest;
@@ -19,16 +19,18 @@ public class QuadTree {
 	{
 		this.rectangle = rectangle;
 		this.capacity = capacity;
+		Board.quads.add(this);
 	}
 
 	public void Insert(Point point) 
 	{
-		if(!this.rectangle.Contains(point)){
+		if(!this.rectangle.Contains(point))
+		{
 			return;
 		}
 			
 			
-		if(points.size() < capacity) 
+		if(points.size() < capacity && !points.contains(point)) 
 		{
 			points.add(point);
 			System.out.println("Point X : " + point.x);
@@ -36,8 +38,10 @@ public class QuadTree {
 		}
 		else 
 		{
+			
 			if(!divided) 
 			{			
+				System.out.println(" " + rectangle.x + " " + rectangle.y + " " + rectangle.w + " " + rectangle.h);
 				Subdivide();
 			}
 
@@ -49,16 +53,15 @@ public class QuadTree {
 		
 	}
 	public void Subdivide() {
+		System.out.println(points + " Points");
 
-		System.out.println("Subdivided " + dividedCount + " times");
-		
 		Rectangle rectangleNW = new Rectangle(rectangle.x + rectangle.w / 2 , 
-				rectangle.y - rectangle.h/2,
+				rectangle.y,
 				rectangle.w/2,rectangle.h/2);
 		this.northwest = new QuadTree(rectangleNW, capacity);
 		
-		Rectangle rectangleNE = new Rectangle(rectangle.x - rectangle.w / 2 , 
-				rectangle.y - rectangle.h/2,
+		Rectangle rectangleNE = new Rectangle(rectangle.x, 
+				rectangle.y,
 				rectangle.w/2,rectangle.h/2);
 		this.northeast = new QuadTree(rectangleNE, capacity);
 		
@@ -67,12 +70,13 @@ public class QuadTree {
 				rectangle.w/2,rectangle.h/2);
 		this.southwest = new QuadTree(rectangleSW, capacity);
 		
-		Rectangle rectangleSE = new Rectangle(rectangle.x - rectangle.w / 2 , 
+		Rectangle rectangleSE = new Rectangle(rectangle.x, 
 				rectangle.y + rectangle.h/2,
 				rectangle.w/2,rectangle.h/2);
 		this.southeast = new QuadTree(rectangleSE, capacity);
 		divided = true;
-		dividedCount++;
+		
+		System.out.println(" " + rectangleNW.x + " " + rectangleNW.y + " " + rectangleNW.w + " " + rectangleNW.h);
 		
 	}
 }
