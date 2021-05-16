@@ -6,7 +6,7 @@ import java.util.List;
 public class QuadTree {
 	List <Point> points = new ArrayList<Point>();
 	int capacity;
-	Rectangle rectangle;
+	public Rectangle rectangle;
 	boolean divided = false;
 	static int dividedCount = 0;
 	public QuadTree northwest;
@@ -26,13 +26,12 @@ public class QuadTree {
 		if(!this.rectangle.Contains(point)){
 			return;
 		}
-			
-			
+		
+		//Board.rects.add(rectangle);
+		
 		if(points.size() < capacity) 
 		{
 			points.add(point);
-			System.out.println("Point X : " + point.x);
-			System.out.println("Point Y : " + point.y);
 		}
 		else 
 		{
@@ -46,11 +45,11 @@ public class QuadTree {
 			this.southeast.Insert(point);
 			this.southwest.Insert(point);
 		}
-		
+
 	}
 	public void Subdivide() {
-
-		System.out.println("Subdivided " + dividedCount + " times");
+		
+		
 		
 		Rectangle rectangleNW = new Rectangle(rectangle.x + rectangle.w / 2 , 
 				rectangle.y - rectangle.h/2,
@@ -72,6 +71,10 @@ public class QuadTree {
 				rectangle.w/2,rectangle.h/2);
 		this.southeast = new QuadTree(rectangleSE, capacity);
 		divided = true;
+		Board.rects.add(rectangleNW);
+		Board.rects.add(rectangleNE);
+		Board.rects.add(rectangleSW);
+		Board.rects.add(rectangleSE);
 		dividedCount++;
 		
 	}

@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javax.swing.Timer;
@@ -32,10 +34,12 @@ public class Board extends JPanel implements ActionListener
     
     //Quad Tree Stuff
     private Rectangle rectangle = new Rectangle(B_WIDTH,B_HEIGHT,B_WIDTH,B_HEIGHT);
-    private QuadTree quadTree = new QuadTree(rectangle, 4);
+    private QuadTree quadTree = new QuadTree(rectangle, 8);
     
     Point[] points;
-	int quantity = 500;
+    public static List <Rectangle> rects = new ArrayList<Rectangle>();
+	int quantity = 10;
+	int rectCount = 0;
 
 	Random rand = new Random();
     
@@ -49,9 +53,9 @@ public class Board extends JPanel implements ActionListener
         	quadTree.Insert(point);	
         	points[i] = point;
         	points[i].id = i;
-        	System.out.println("inserted");
         }
         initBoard();
+        
     }
     
     /*** 
@@ -60,14 +64,14 @@ public class Board extends JPanel implements ActionListener
     private void initBoard() {
         
         // Seta a cor de fundo da janela
-        setBackground(Color.white);
+        setBackground(Color.WHITE);
         
         // Coloca o foco nesta janela
         setFocusable(true);
 
         // Configura a dimensao da janela
-        setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
-        rectangle = new Rectangle(200,200,200,200);
+        setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT ));V
+        // rectangle = new Rectangle(200,200,200,200);
         
         // Inicializa o jogo
         initGame();
@@ -90,14 +94,17 @@ public class Board extends JPanel implements ActionListener
     
     public void doDrawing(Graphics g) 
     {
-
+    	for(int i = 0; i <rects.size(); i++) {
+		    	g.drawRect(rects.get(i).x, rects.get(i).y, rects.get(i).w*2, rects.get(i).h*2);
+		    	g.setColor(Color.BLUE);
+    	}
     	for (int i = 0; i < quantity; i++) 
     	{
     		g.setColor(Color.RED);
         	g.fillRect(points[i].x, points[i].y, 5, 5);
         	java.awt.Toolkit.getDefaultToolkit().sync();  
     	}
-    	  
+    	System.out.println("eae guei "+ rects.size());
     }
 
 
