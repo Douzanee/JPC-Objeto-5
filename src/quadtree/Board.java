@@ -21,8 +21,8 @@ public class Board extends JPanel implements ActionListener
 {
 	
 	// Tamanho do tabuleiro
-	private final int B_WIDTH = 1000;
-    private final int B_HEIGHT = 1000;
+	private final int B_WIDTH = 800;
+    private final int B_HEIGHT = 800;
     
     private final int DELAY = 100; // Frequencia do game loop
     
@@ -33,12 +33,12 @@ public class Board extends JPanel implements ActionListener
     private Timer timer;
     
     //Quad Tree Stuff
-    private Rectangle rectangle = new Rectangle(B_WIDTH,B_HEIGHT,B_WIDTH,B_HEIGHT);
-    private QuadTree quadTree = new QuadTree(rectangle, 8);
+    private Rectangle rectangle = new Rectangle(getWidth()/2 ,getHeight()/2, B_WIDTH, B_HEIGHT);
+    private QuadTree quadTree = new QuadTree(rectangle, 4);
     
     Point[] points;
     public static List <Rectangle> rects = new ArrayList<Rectangle>();
-	int quantity = 10;
+	int quantity = 12;
 	int rectCount = 0;
 
 	Random rand = new Random();
@@ -46,8 +46,9 @@ public class Board extends JPanel implements ActionListener
     
     public Board() {
     	
+    	rects.add(rectangle);
     	points = new Point[quantity];
-    	
+    	System.out.println("X : " + rectangle.x + " Y : " + rectangle.y + " W : " + rectangle.w + " H : " + rectangle.h);
         for(int i = 0; i < quantity; i++) {
         	Point point = new Point(rand.nextInt(B_WIDTH), rand.nextInt(B_HEIGHT));
         	quadTree.Insert(point);	
@@ -70,8 +71,7 @@ public class Board extends JPanel implements ActionListener
         setFocusable(true);
 
         // Configura a dimensao da janela
-        setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT ));V
-        // rectangle = new Rectangle(200,200,200,200);
+        setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
         
         // Inicializa o jogo
         initGame();
@@ -97,6 +97,8 @@ public class Board extends JPanel implements ActionListener
     	for(int i = 0; i <rects.size(); i++) {
 		    	g.drawRect(rects.get(i).x, rects.get(i).y, rects.get(i).w*2, rects.get(i).h*2);
 		    	g.setColor(Color.BLUE);
+
+		    	System.out.println("X : " + rects.get(i).x + " Y : " + rects.get(i).y + " W : " + rects.get(i).w + " H : " + rects.get(i).h);
     	}
     	for (int i = 0; i < quantity; i++) 
     	{
