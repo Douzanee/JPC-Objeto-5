@@ -37,7 +37,7 @@ public class Board extends JPanel implements ActionListener
     static List<QuadTree> quads = new ArrayList();
     
     Point[] points;
-	int quantity = 100;
+	int quantity = 1000;
 
 	Random rand = new Random();
     
@@ -51,7 +51,6 @@ public class Board extends JPanel implements ActionListener
         	points[i] = point;
         	points[i].id = i;
         	quadTree.Insert(point);	
-        	System.out.println("inserted");
         }
         initBoard();
     }
@@ -91,7 +90,11 @@ public class Board extends JPanel implements ActionListener
     
     public void doDrawing(Graphics g) 
     {
-
+    	points[0].highLight = true;
+    	points[1].highLight = true;
+    	points[2].highLight = true;
+    	points[3].highLight = true;
+    	points[4].highLight = true;
     	g.drawRect(1,1,B_WIDTH-3, B_HEIGHT-3);
     	g.setColor(Color.black);
     	    	
@@ -102,20 +105,40 @@ public class Board extends JPanel implements ActionListener
     	
     	for (int i = 0; i < quantity; i++) 
     	{
-    		g.setColor(Color.red);
-        	g.fillRect(points[i].x, points[i].y, 5, 5);
+    		if(points[i].highLight) {
+    		g.setColor(Color.RED);
+    		}
+    		else {	
+    			g.setColor(Color.LIGHT_GRAY);
+    		}
+        	g.fillOval(points[i].x, points[i].y, 7, 7);
     	}
     	
     	java.awt.Toolkit.getDefaultToolkit().sync();  
     	  
     }
-
+    public void movePoints() {
+    	//quads.clear();
+    	Random r = new Random();
+    	int min = -2;
+    	int max = 4;
+    	int result;
+        for(int i = 0; i < quantity; i++) {
+        	result = r.nextInt(max - min) + min;
+        	points[i].x += result;
+        	result = r.nextInt(max - min) + min;
+        	points[i].y += result;
+        	quadTree.Insert(points[i]);	
+        }
+    }
 
     public void actionPerformed(ActionEvent e) {
 
         if (inGame) 
-        {
-        	
+        {	
+        	quads.clear();
+        	quadTree = new QuadTree(rectangle, 4);
+        	movePoints();
         }
 
         repaint();
