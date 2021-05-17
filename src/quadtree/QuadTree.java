@@ -38,10 +38,6 @@ public class QuadTree {
 		if(points.size() < capacity && !points.contains(point)) 
 		{
 			points.add(point);
-			System.out.println("Point X : " + point.x);
-			System.out.println("Point Y : " + point.y);
-			System.out.println("Pontos encontrados:  " + points.size() + " em " + " " + quadrante);
-
 		}
 		else 
 		{			
@@ -67,11 +63,6 @@ public class QuadTree {
 
 	}
 	public void Subdivide() {
-		for (int i = 0; i < points.size(); i++)
-		{
-			System.out.println(" Estava incluso o ID:  " + points.get(i).id);
-		}
-
 		Rectangle rectangleNW = new Rectangle(rectangle.x, 
 				rectangle.y,
 				rectangle.w/2,rectangle.h/2);
@@ -113,10 +104,28 @@ public class QuadTree {
 				}		
 			}
 			if (k > 0) {
+				if (points.get(i).direction == 0) {
+					points.get(i).direction = 1;
+				}
+				
+				else if (points.get(i).direction == 1) {
+					points.get(i).direction = 0;
+				}
+				else if (points.get(i).direction == 2) {
+					points.get(i).direction = 3;
+				}
+				else if (points.get(i).direction == 3) {
+					points.get(i).direction = 2;
+				}
+				
+				
+				
 				points.get(i).highLight = true;
 			}
 			else {
 				points.get(i).highLight = false;
+				
+
 			}
 		}
 	}

@@ -6,6 +6,8 @@ public class Point {
 	public int y;
 	public int id;
 	public boolean highLight;
+	public int direction;
+	public int speed;
 
 	public Point(int x, int y) 
 	{

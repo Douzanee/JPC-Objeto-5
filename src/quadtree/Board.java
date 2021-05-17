@@ -37,7 +37,7 @@ public class Board extends JPanel implements ActionListener
     static List<QuadTree> quads = new ArrayList();
     
     Point[] points;
-	int quantity = 400;
+	int quantity = 100;
 
 	Random rand = new Random();
     
@@ -50,7 +50,11 @@ public class Board extends JPanel implements ActionListener
         	Point point = new Point(rand.nextInt(rectangle.w - 2) + 2, rand.nextInt(rectangle.h - 2) + 2);
         	points[i] = point;
         	points[i].id = i;
+        	points[i].direction = rand.nextInt(4);
+        	points[i].speed = rand.nextInt(10) + 1;
+        	
         	quadTree.Insert(point);	
+        	
         }
         initBoard();
     }
@@ -113,16 +117,48 @@ public class Board extends JPanel implements ActionListener
     	  
     }
     public void movePoints() {   	
-    	//quads.clear();
-    	Random r = new Random();
-    	int min = -1;
-    	int max = 2;
-    	int result;
+    	
+
         for(int i = 0; i < quantity; i++) {
-        	result = r.nextInt(max - min) + min;
-        	points[i].x += result;
-        	result = r.nextInt(max - min) + min;
-        	points[i].y += result;
+        	
+        	
+        	
+        	if(points[i].direction == 0) {
+	
+	        	points[i].y += points[i].speed;
+	        	
+        	}
+        	if(points[i].direction == 1) {
+	
+	        	points[i].y -= points[i].speed;
+	        	
+        	}
+        	if(points[i].direction == 2) {
+
+	        	points[i].x -= points[i].speed;
+	        	
+        	}
+        	if(points[i].direction == 3) {
+
+	        	points[i].x += points[i].speed;
+
+        	}
+        	
+        	if(points[i].x <= 1) {
+				points[i].direction = 3;
+        	}
+        	if(points[i].x >= 598) {
+				points[i].direction = 2;
+        	}
+        	if(points[i].y <= 1) {
+				points[i].direction = 0;
+        	}
+        	if(points[i].y >= 598) {
+				points[i].direction = 1;
+        	}
+
+        	
+        	
         	quadTree.Insert(points[i]);	
         }
     }
