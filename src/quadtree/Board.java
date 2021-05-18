@@ -37,9 +37,11 @@ public class Board extends JPanel implements ActionListener
     static List<QuadTree> quads = new ArrayList();
     
     Point[] points;
-	int quantity = 100;
+	int quantity = 500000;
 
 	Random rand = new Random();
+	
+	private boolean hasQuad = false;
     
     
     public Board() {
@@ -53,8 +55,9 @@ public class Board extends JPanel implements ActionListener
         	points[i].direction = rand.nextInt(4);
         	points[i].speed = rand.nextInt(10) + 1;
         	
+        	if(hasQuad) {
         	quadTree.Insert(point);	
-        	
+        	}
         }
         initBoard();
     }
@@ -94,14 +97,14 @@ public class Board extends JPanel implements ActionListener
     
     public void doDrawing(Graphics g) 
     {
+    	if(hasQuad) {
     	g.drawRect(1,1,B_WIDTH-3, B_HEIGHT-3);
     	g.setColor(Color.black);
-    	    	
-    	for (int i = 0; i < quads.size(); i++) 
-    	{
-    		g.drawRect(quads.get(i).rectangle.x, quads.get(i).rectangle.y, quads.get(i).rectangle.w, quads.get(i).rectangle.h);
+    		for (int i = 0; i < quads.size(); i++) 
+    		{
+    			g.drawRect(quads.get(i).rectangle.x, quads.get(i).rectangle.y, quads.get(i).rectangle.w, quads.get(i).rectangle.h);
+    		}
     	}
-    	
     	for (int i = 0; i < quantity; i++) 
     	{
     		if(points[i].highLight) {
@@ -118,10 +121,7 @@ public class Board extends JPanel implements ActionListener
     }
     public void movePoints() {   	
     	
-
         for(int i = 0; i < quantity; i++) {
-        	
-        	
         	
         	if(points[i].direction == 0) {
 	
@@ -158,26 +158,67 @@ public class Board extends JPanel implements ActionListener
         	}
 
         	
-        	
+        	if(hasQuad) {
         	quadTree.Insert(points[i]);	
+        
+        	}
         }
+    }
+    public void CheckCollisions(Point pointToCheck) {
+    	for(int i = 0; i < points.length; i++) {
+    		if((points[i].x - pointToCheck.x) * (points[i].x - pointToCheck.x) + (points[i].y - pointToCheck.y) * (points[i].y - pointToCheck.y) <= 24.5f && points[i].id != pointToCheck.id)
+    		{
+    			pointToCheck.highLight = true;
+    			
+    			if (pointToCheck.direction == 0) {
+    				pointToCheck.direction = 1;
+				}
+				
+				else if (pointToCheck.direction == 1) {
+					pointToCheck.direction = 0;
+				}
+				else if (pointToCheck.direction == 2) {
+					pointToCheck.direction = 3;
+				}
+				else if (pointToCheck.direction == 3) {
+					pointToCheck.direction = 2;
+				}
+    			return;
+    		}
+    		else
+    		{
+    			pointToCheck.highLight = false;
+    		}
+    	}
     }
 
     public void actionPerformed(ActionEvent e) {
 
         if (inGame) 
         {	       	
+        	if(hasQuad) {
         	quads.clear();
+        
         	quadTree = new QuadTree(rectangle, 4);
+        	}	
+        	
         	movePoints();
         	
-        	for(int i = 0; i < quads.size(); i++)
+        	
+        	if(hasQuad) {
+        			for(int i = 0; i < quads.size(); i++)
+        			{
+        				quads.get(i).VerifyCollisions();
+        			}
+        		}
+        	else
         	{
-        		quads.get(i).VerifyCollisions();
+        		for(int i = 0; i < points.length; i++)
+        		{
+        			CheckCollisions(points[i]);
+        		}
         	}
+        	repaint();
         }
-
-        repaint();
     }
-
 }
