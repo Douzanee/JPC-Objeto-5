@@ -37,12 +37,13 @@ public class Board extends JPanel implements ActionListener
     static List<QuadTree> quads = new ArrayList();
     
     Point[] points;
-	int quantity = 500000;
+	int quantity = 100000;
 
 	Random rand = new Random();
 	
 	private boolean hasQuad = false;
-    
+    private long startTime;
+    private long endTime;
     
     public Board() {
     	
@@ -196,6 +197,8 @@ public class Board extends JPanel implements ActionListener
 
         if (inGame) 
         {	       	
+        	startTime = System.currentTimeMillis();
+        	
         	if(hasQuad) {
         	quads.clear();
         
@@ -219,6 +222,8 @@ public class Board extends JPanel implements ActionListener
         		}
         	}
         	repaint();
+        	endTime = System.currentTimeMillis();
+        	System.out.println("Time : " + ((endTime - startTime)));
         }
     }
 }
